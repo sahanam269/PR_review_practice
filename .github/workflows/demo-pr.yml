@@ -1,0 +1,35 @@
+
+name: Create Demo Pull Request
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create sample contribution
+        run: |
+          echo "This is my first automated contribution!" > review-sample.txt
+
+      - name: Open Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: bot/demo-contribution
+          commit-message: "Add demo contribution"
+          title: "My first automated Pull Request"
+          body: |
+            Hello maintainer!
+
+            This is a practice contribution.
+            Please review my changes.
+          delete-branch: true
